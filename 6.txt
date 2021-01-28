@@ -1,0 +1,39 @@
+import numpy as np
+#from matplotlib import pyplot as plt
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+from sklearn import metrics
+
+'''
+The dataset contains cases  from a study that was 
+conducted between 1958 and 1970 at the University 
+of Chicago's Billings Hospital on the survival of 
+patients who had undergone surgery for cancer
+
+1. Age of patient at time of operation (numerical) 
+2. Patient's year of operation (year - 1900, numerical) 
+3. Number of positive axillary nodes detected (numerical) 
+4. Survival status (class attribute) 
+-- 1 = the patient survived 5 years or longer 
+-- 2 = the patient died within 5 year 
+'''
+
+c1,c2,c3,c4= np.loadtxt('data.csv',unpack=True,delimiter = ',')
+
+print("The age of patients are :",c1[0:5])
+print("The year of operation are:",c2[0:5])
+print("Number of positive axillary nodes detected are:",c3[0:5])
+print("The labes (survived in 5 years[1-yes,2-no])",c4[0:5])
+
+x=np.column_stack((c1,c3))
+y=c4
+
+clf = GaussianNB()
+
+clf.fit(x,y)
+predictions=clf.predict(x)
+
+print("\n")
+print('Accuracy of the classifer is:',accuracy_score(y,predictions))
+print("\n")
+print(metrics.classification_report(y,predictions))
